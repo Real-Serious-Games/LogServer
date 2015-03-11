@@ -1,0 +1,28 @@
+{
+  "name": "LogServer",
+  "version": "1.0.0",
+  "description": "A simple server that accepts Serilog logs via HTTP post and adds them to your MongoDB database.",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.12.0",
+    "express": "^4.12.2",
+    "linq": "^3.0.4-beta",
+    "moment": "^2.9.0",
+    "promised-mongo": "^0.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Real-Serious-Games/LogServer"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Real-Serious-Games/LogServer/issues"
+  },
+  "homepage": "https://github.com/Real-Serious-Games/LogServer"
+}
