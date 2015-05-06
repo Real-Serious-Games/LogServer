@@ -22,8 +22,9 @@ app.post('/log', function (req, res) {
 	var logs = received.Logs;
 
 	logs.forEach(function (log) {
+
 		var logEntry = {
-			Timestamp: moment(log.Timestamp),
+			Timestamp: moment(log.Timestamp).toDate(),
 			Level: log.Level,
 			MessageTemplate: log.MessageTemplate,
 			RenderedMessage: log.RenderedMessage,
@@ -46,6 +47,8 @@ app.post('/log', function (req, res) {
 	
 		console.log(logEntry.Properties.UserName + " | " + logEntry.RenderedMessage);
 	});
+
+	res.status(200);
 });
 
 app.listen(3000, "0.0.0.0", function () {
