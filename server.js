@@ -6,9 +6,9 @@ var express = require('express');
 var app = express();
 
 var pmongo = require('promised-mongo');
-var db = pmongo('jenkins/logs');
-var logsCollection = db.collection('unity.build.logs');
-var errorsCollection = db.collection('unity.build.errors');
+var db = pmongo('logs');
+var logsCollection = db.collection('logs');
+var errorsCollection = db.collection('errors');
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.json()); 
