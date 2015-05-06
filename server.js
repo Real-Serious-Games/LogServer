@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
 	res.send("Hello");
-};
+});
 
 app.post('/log', function (req, res) {
 	var received = req.body;
