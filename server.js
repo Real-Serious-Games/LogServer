@@ -13,6 +13,10 @@ var errorsCollection = db.collection('errors');
 var bodyParser = require('body-parser')
 app.use(bodyParser.json()); 
 
+app.get("/", function (req, res) {
+	res.send("Hello");
+};
+
 app.post('/log', function (req, res) {
 	var received = req.body;
 	var logs = received.Logs;
