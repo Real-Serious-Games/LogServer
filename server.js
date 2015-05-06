@@ -44,6 +44,6 @@ app.post('/log', function (req, res) {
 	});
 });
 
-app.listen(5555, "0.0.0.0", function () {
-	console.log("Listening on port 5555");
+app.listen(3000, "0.0.0.0", function () {
+	console.log("Listening on port 3000");
 });
