@@ -1,4 +1,5 @@
 
+var argv = require('yargs').argv;
 var E = require('linq');
 var moment = require('moment');
 
@@ -51,6 +52,8 @@ app.post('/log', function (req, res) {
 	res.status(200);
 });
 
-app.listen(3000, "0.0.0.0", function () {
-	console.log("Receiving logs at http://<url>:3000/log");
+var server = app.listen(argv.port || 3000, "0.0.0.0", function () {
+	var host = server.address().address;
+	var port = server.address().port;
+	console.log("Receiving logs at " + host + ":" + port + "/log");
 });
