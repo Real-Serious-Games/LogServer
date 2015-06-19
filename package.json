@@ -8,7 +8,8 @@
     "express": "^4.12.2",
     "linq": "^3.0.4-beta",
     "moment": "^2.9.0",
-    "promised-mongo": "^0.11.1"
+    "promised-mongo": "^0.11.1",
+    "yargs": "^3.11.0"
   },
   "devDependencies": {},
   "scripts": {
