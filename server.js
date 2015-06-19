@@ -52,5 +52,5 @@ app.post('/log', function (req, res) {
 });
 
 app.listen(3000, "0.0.0.0", function () {
-	console.log("Listening on port 3000");
+	console.log("Receiving logs at http://<url>:3000/log");
 });
