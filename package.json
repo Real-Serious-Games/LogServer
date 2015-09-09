@@ -1,6 +1,6 @@
 {
   "name": "LogServer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple server that accepts Serilog logs via HTTP post and adds them to your MongoDB database.",
   "main": "server.js",
   "dependencies": {
