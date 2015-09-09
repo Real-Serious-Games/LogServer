@@ -45,7 +45,7 @@ app.post('/log', function (req, res) {
 		throw new Error("Expected 'Logs' property on body");
 	}
 
-	var logs = E.from(req.body)
+	var logs = E.from(req.body.Logs)
 		.select(transformLog)
 		.toArray();
 
