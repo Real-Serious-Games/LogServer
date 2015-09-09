@@ -1,6 +1,13 @@
 'use strict';
 
-var startServer = function () {
+//
+// Start the log server.
+//
+var startServer = function (config, outputPlugin) {
+
+	if (!outputPlugin) {
+		throw new Error("'outputPlugin' argument not specified.");
+	}
 
 	var argv = require('yargs').argv;
 	var E = require('linq');
@@ -8,8 +15,6 @@ var startServer = function () {
 
 	var express = require('express');
 	var app = express();
-
-	var outputPlugin = require('./mongodb-output')({});
 
 	var bodyParser = require('body-parser')
 	app.use(bodyParser.json()); 
@@ -74,7 +79,7 @@ if (require.main === module) {
 	//
 	// Run from command line.
 	//
-	startServer();
+	startServer({}, require('./mongodb-output')({}));
 }
 else {
 	// 
