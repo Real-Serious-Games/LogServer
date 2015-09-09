@@ -40,8 +40,12 @@ app.post('/log', function (req, res) {
 	if (!req.body) {
 		throw new Error("Expected 'body'");
 	}
-	var received = req.body;
-	var logs = E.from(received.Logs)
+
+	if (!req.body.Logs) {
+		throw new Error("Expected 'Logs' property on body");
+	}
+
+	var logs = E.from(req.body)
 		.select(transformLog)
 		.toArray();
 
