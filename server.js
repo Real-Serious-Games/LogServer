@@ -3,7 +3,7 @@
 //
 // Start the log server.
 //
-var startServer = function (config, outputPlugin) {
+var startServer = function (conf, outputPlugin) {
 
 	if (!outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
@@ -62,7 +62,7 @@ var startServer = function (config, outputPlugin) {
 		res.status(200).end();
 	});
 
-	var server = app.listen(argv.port || 3000, "0.0.0.0", function () {
+	var server = app.listen(conf.get("port"), "0.0.0.0", function () {
 		var host = server.address().address;
 		var port = server.address().port;
 		console.log("Receiving logs at " + host + ":" + port + "/log");
@@ -79,7 +79,29 @@ if (require.main === module) {
 	//
 	// Run from command line.
 	//
-	startServer({}, require('./mongodb-output')({}));
+	var conf = require('confucious');
+	var fs = require('fs');
+	if (fs.existsSync('config.json')) {
+		conf.pushJsonFile('config.json');		
+	}
+	conf.pushArgv();
+	if (!conf.get('db')) {
+		throw new Error("'db' not specified in config.json or as command line option.");
+	}
+
+	if (!conf.get('logsCollection')) {
+		throw new Error("'logsCollection' not specified in config.json or as command line option.");
+	}
+
+	if (!conf.get('errorsCollection')) {
+		throw new Error("'errorsCollection' not specified in config.json or as command line option.");
+	}
+
+	if (!conf.get('port')) {
+		throw new Error("'port' not specified in config.json or as command line option.");
+	}
+
+	startServer(conf, require('./mongodb-output')(conf));
 }
 else {
 	// 

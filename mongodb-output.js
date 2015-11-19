@@ -4,12 +4,12 @@
 // Output plugin that stores logs in MongoDB database.
 //
 
-module.exports = function (config) {
+module.exports = function (conf) {
 
 	var pmongo = require('promised-mongo');
-	var db = pmongo('logs');
-	var logsCollection = db.collection('logs');
-	var errorsCollection = db.collection('errors');
+	var db = pmongo(conf.get('db'));
+	var logsCollection = db.collection(conf.get('logsCollection'))
+	var errorsCollection = db.collection(conf.get('errorsCollection'));
 
 	return {
 
