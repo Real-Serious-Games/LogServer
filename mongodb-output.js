@@ -20,7 +20,7 @@ module.exports = function (conf) {
 			logs.forEach(function (log) {
 
 				if (log.Level === 'Fatal' || log.Level === 'Error') {
-					errorsCollection.save(logEntry);
+					errorsCollection.save(log);
 				}
 
 				logsCollection.save(log);

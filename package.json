@@ -1,6 +1,6 @@
 {
   "name": "rsg-log-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A tiny server that accepts Serilog logs via HTTP post and adds them to your MongoDB database.",
   "main": "server.js",
   "dependencies": {
