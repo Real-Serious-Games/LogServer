@@ -17,14 +17,28 @@ module.exports = function (conf) {
 		// Emit an array of logs to the database.
 		//
 		emit: function (logs) {
+                        logsCollection.insert(logs)
+                            .then(function () {
+                                console.log("Added logs to database.");
+                            })
+	                    .catch(function (err) {
+                                console.err(err && error.stack || err);
+                            });
+
+                        var errorLogs = logs.filter(function (log) {
+                                return log.Level === 'Fatal' || log.Level === 'Error';
+                            });
+                        if (errorLogs.length > 0) {
+                            errorsCollection.insert(errorLogs)
+                                .then(function () {
+                                    console.log("Added errors to database");
+                                })
+                                .catch(function (err) {
+                                    console.err(err && err.stack || err);
+                                });
+                        }
+
 			logs.forEach(function (log) {
-
-				if (log.Level === 'Fatal' || log.Level === 'Error') {
-					errorsCollection.save(log);
-				}
-
-				logsCollection.save(log);
-			
 				console.log(log.Properties.UserName + " | " + log.RenderedMessage);
 			});			
 		},
