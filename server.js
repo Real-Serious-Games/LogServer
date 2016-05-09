@@ -22,6 +22,13 @@ var startServer = function (conf, outputPlugin) {
 	app.get("/", function (req, res) {
 		res.send("Hello");
 	});
+    
+	//
+	// Check that the server is alive (used by the server monitor)
+	// 
+    app.get('/alive', function(req, res) {
+        res.status(200).end();
+    });
 
 	//
 	// Preprocess log to our expected structure.
