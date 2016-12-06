@@ -1,5 +1,11 @@
 'use strict';
 
+var argv = require('yargs').argv;
+var E = require('linq');
+var moment = require('moment');
+var express = require('express');
+var bodyParser = require('body-parser')
+
 //
 // Start the log server.
 //
@@ -9,14 +15,7 @@ var startServer = function (conf, outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
 	}
 
-	var argv = require('yargs').argv;
-	var E = require('linq');
-	var moment = require('moment');
-
-	var express = require('express');
 	var app = express();
-
-	var bodyParser = require('body-parser')
 	app.use(bodyParser.json()); 
 
 	//
