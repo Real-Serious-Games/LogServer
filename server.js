@@ -131,8 +131,7 @@ if (require.main === module) {
 					;
 			};
 
-			var dailyReportSchedule = '0 0 6 * * 1-7'; // Every day at 6am.
-
+			var dailyReportSchedule = conf.get('dailyReportSchedule');
 			var CronJob = cron.CronJob;
 				var cronJob = new CronJob({
 					cronTime: dailyReportSchedule,

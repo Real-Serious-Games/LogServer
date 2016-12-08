@@ -3,6 +3,7 @@
     "logsCollection": "logs",
     "errorsCollection": "errors",
     "port": 3000,
+    "dailyReportSchedule": "0 0 6 * * 1-7",
     "mail": {
         "to": [
             "<email-addr>"
