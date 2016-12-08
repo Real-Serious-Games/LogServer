@@ -7,6 +7,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var DailyReport = require('./daily-report');
 var assert = require('chai').assert;
+var cron = require('cron');
 
 //
 // Start the log server.
@@ -132,7 +133,7 @@ if (require.main === module) {
 
 			var dailyReportSchedule = '0 0 6 * * 1-7'; // Every day at 6am.
 
-			var CronJob = require('cron').CronJob;
+			var CronJob = cron.CronJob;
 				var cronJob = new CronJob({
 					cronTime: dailyReportSchedule,
 					onTick: emailDailyReport,
