@@ -118,18 +118,23 @@ if (require.main === module) {
     }
 
 	var logStoragePlugin = require('./mongodb-output')(conf);
+	var emailDailyReport = function () {
+		var dailyReport = new DailyReport(logStoragePlugin, conf);
+		dailyReport.emailDailyReport(conf.get('mail:dailyReportSpec'))
+			.catch(err => {
+				console.error("Failed to generate daily report\r\n" + err.stack);
+			})
+			;
+	};
+
+	if (argv.dailyReport) {
+		emailDailyReport();
+		return;
+	}	
+
     startServer(conf, logStoragePlugin)
 		.then(() => {
 			console.log("Starting daily report cron...");
-
-			var emailDailyReport = function () {
-				var dailyReport = new DailyReport(logStoragePlugin, conf);
-				dailyReport.emailDailyReport()
-					.catch(err => {
-						console.error("Failed to generate daily report\r\n" + err.stack);
-					})
-					;
-			};
 
 			var dailyReportSchedule = conf.get('dailyReportSchedule');
 			var CronJob = cron.CronJob;
