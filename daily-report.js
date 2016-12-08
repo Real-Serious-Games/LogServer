@@ -47,8 +47,7 @@ var DailyReport = function (logStoragePlugin, config) {
         spec.forEach(s => assert.isString(s));
 
         var self = this;
-        //var startTime = moment().subtract(24, 'hours').toDate();
-        var startTime = moment().subtract(100, 'hours').toDate();
+        var startTime = moment().subtract(24, 'hours').toDate();
         var endTime = moment().toDate();
 
         return self.findLogs(startTime, endTime, spec)
