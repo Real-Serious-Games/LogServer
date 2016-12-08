@@ -5,6 +5,8 @@ var E = require('linq');
 var moment = require('moment');
 var express = require('express');
 var bodyParser = require('body-parser')
+var DailyReport = require('./daily-report');
+var assert = require('chai').assert;
 
 //
 // Start the log server.
@@ -14,6 +16,10 @@ var startServer = function (conf, outputPlugin) {
 	if (!outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
 	}
+
+	assert.isObject(outputPlugin);
+	assert.isFunction(outputPlugin.emit);
+	assert.isFunction(outputPlugin.retrieveLogs);
 
 	var app = express();
 	app.use(bodyParser.json()); 
@@ -110,8 +116,31 @@ if (require.main === module) {
         throw new Error("'port' not specified in config.json or as command line option.");
     }
 
-    startServer(conf, require('./mongodb-output')(conf))
+	var logStoragePlugin = require('./mongodb-output')(conf);
+    startServer(conf, logStoragePlugin)
+		.then(() => {
+			console.log("Starting daily report cron...");
 
+			var emailDailyReport = function () {
+				var dailyReport = DailyReport(logStoragePlugin, conf);
+				dailyReport.emailDailyReport()
+					.catch(err => {
+						console.error("Failed to generate daily report\r\n" + err.stack);
+					})
+					;
+			};
+
+			var dailyReportSchedule = '0 0 6 * * 1-7'; // Every day at 6am.
+
+			var CronJob = require('cron').CronJob;
+				var cronJob = new CronJob({
+					cronTime: dailyReportSchedule,
+					onTick: emailDailyReport,
+					start: false,
+				});
+
+				cronJob.start();			
+		})
         .catch(err => {
             console.error("Failed to start server.\r\n" + err.stack);
         })

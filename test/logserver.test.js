@@ -17,6 +17,10 @@ describe('logserver', function () {
         emit: function (logs) {
             logsOutput.push(logs);
         },
+
+        retrieveLogs: function (startDate, endDate) {
+            // Unecessary.
+        },
     };
 
     var server = null;
