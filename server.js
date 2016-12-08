@@ -123,7 +123,7 @@ if (require.main === module) {
 			console.log("Starting daily report cron...");
 
 			var emailDailyReport = function () {
-				var dailyReport = DailyReport(logStoragePlugin, conf);
+				var dailyReport = new DailyReport(logStoragePlugin, conf);
 				dailyReport.emailDailyReport()
 					.catch(err => {
 						console.error("Failed to generate daily report\r\n" + err.stack);
