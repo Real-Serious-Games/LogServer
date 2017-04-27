@@ -9,6 +9,10 @@ var DailyReport = require('./daily-report');
 var assert = require('chai').assert;
 var cron = require('cron');
 
+process.on('uncaughtException', function (err) {
+    console.error('Uncaught Exception: ' + err.message + '\r\n' + err.stack);
+});
+
 //
 // Start the log server.
 //
@@ -117,7 +121,6 @@ if (require.main === module) {
         throw new Error("'port' not specified in config.json or as command line option.");
     }
 
-	var logStoragePlugin = require('./mongodb-output')(conf);
 	var emailDailyReport = function () {
 		var dailyReport = new DailyReport(logStoragePlugin, conf);
 		dailyReport.emailDailyReport(conf.get('mail:dailyReportSpec'))
@@ -132,19 +135,22 @@ if (require.main === module) {
 		return;
 	}	
 
-    startServer(conf, logStoragePlugin)
-		.then(() => {
-			console.log("Starting daily report cron...");
+	require('./mongodb-output')(conf)
+		.then(logStoragePlugin => {
+			startServer(conf, logStoragePlugin)
+				.then(() => {
+					console.log("Starting daily report cron...");
 
-			var dailyReportSchedule = conf.get('dailyReportSchedule');
-			var CronJob = cron.CronJob;
-				var cronJob = new CronJob({
-					cronTime: dailyReportSchedule,
-					onTick: emailDailyReport,
-					start: false,
+					var dailyReportSchedule = conf.get('dailyReportSchedule');
+					var CronJob = cron.CronJob;
+						var cronJob = new CronJob({
+							cronTime: dailyReportSchedule,
+							onTick: emailDailyReport,
+							start: false,
+						});
+
+						cronJob.start();			
 				});
-
-				cronJob.start();			
 		})
         .catch(err => {
             console.error("Failed to start server.\r\n" + err.stack);
