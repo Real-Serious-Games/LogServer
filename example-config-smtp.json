@@ -1,0 +1,24 @@
+{
+    "db": "mongodb://localhost/logs",
+    "logsCollection": "logs",
+    "errorsCollection": "errors",
+    "port": 3000,
+    "dailyReportSchedule": "0 0 6 * * 1-7",
+    "mail": {
+        "service": "smtp",
+        "secure": true,
+        "to": [
+            "<email-addr>"
+        ],
+        "from": "<email-addr>",
+        "replyTo": "<email-addr>",
+        "host": "<smtp-host>",
+        "username": "<email-username",
+        "password": "<email-password>",
+        "subject": "Daily Logging Report",        
+        "dailyReportSpec": [
+            "error",
+            "warning"
+        ]
+   }
+}

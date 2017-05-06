@@ -15,7 +15,9 @@ if (enableMailer) {
 		send: function (msg) {
 			return new Promise(function (resolve, reject) {
                 var transport = nodemailer.createTransport({
-                    service: "Gmail",
+                    service: config.get('mail:service'),
+					host: config.get('mail:host'),
+					secure: config.get('mail:secure'),
                     auth: {
                         user: config.get('mail:username'), 
                         pass: config.get('mail:password'),
