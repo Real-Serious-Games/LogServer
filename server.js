@@ -122,8 +122,13 @@ if (require.main === module) {
     }
 
 	var emailDailyReport = function () {
+		console.log("Generating daily logging report email...");
+
 		var dailyReport = new DailyReport(logStoragePlugin, conf);
 		dailyReport.emailDailyReport(conf.get('mail:dailyReportSpec'))
+			.then(() => {
+				console.log("...generated daily logging report email.");
+			})
 			.catch(err => {
 				console.error("Failed to generate daily report\r\n" + err.stack);
 			})
