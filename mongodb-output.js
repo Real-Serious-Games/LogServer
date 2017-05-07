@@ -26,7 +26,7 @@ module.exports = function (conf) {
                 emit: function (logs) {
                     logsCollection.insertMany(logs)
                         .then(function () {
-                            console.log("Added logs to database.");
+                            //console.log("Added logs to database.");
                         })
                         .catch(function (err) {
                             console.error("!! " + (err && error.stack || err));
@@ -38,16 +38,18 @@ module.exports = function (conf) {
                     if (errorLogs.length > 0) {
                         errorsCollection.insertMany(errorLogs)
                             .then(function () {
-                                console.log("Added errors to database");
+                                //console.log("Added errors to database");
                             })
                             .catch(function (err) {
                                 console.error("!! " + (err && err.stack || err));
                             });
                     }
 
+                    /*
                     logs.forEach(function (log) {
                         console.log(log.Properties.UserName + " | " + log.RenderedMessage);
-                    });			
+                    });
+                    */			
                 },
 
                 //
