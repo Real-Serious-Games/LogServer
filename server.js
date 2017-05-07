@@ -142,19 +142,19 @@ if (require.main === module) {
 
 	require('./mongodb-output')(conf)
 		.then(logStoragePlugin => {
-			startServer(conf, logStoragePlugin)
+			return startServer(conf, logStoragePlugin)
 				.then(() => {
 					console.log("Starting daily report cron...");
 
 					var dailyReportSchedule = conf.get('dailyReportSchedule');
 					var CronJob = cron.CronJob;
-						var cronJob = new CronJob({
-							cronTime: dailyReportSchedule,
-							onTick: emailDailyReport,
-							start: false,
-						});
+					var cronJob = new CronJob({
+						cronTime: dailyReportSchedule,
+						onTick: emailDailyReport,
+						start: false,
+					});
 
-						cronJob.start();			
+					cronJob.start();			
 				});
 		})
         .catch(err => {
