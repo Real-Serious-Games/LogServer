@@ -121,29 +121,29 @@ if (require.main === module) {
         throw new Error("'port' not specified in config.json or as command line option.");
     }
 
-	var emailDailyReport = function () {
-		console.log("Generating daily logging report email...");
-
-		var dailyReport = new DailyReport(logStoragePlugin, conf);
-		dailyReport.emailDailyReport(conf.get('mail:dailyReportSpec'))
-			.then(() => {
-				console.log("...generated daily logging report email.");
-			})
-			.catch(err => {
-				console.error("Failed to generate daily report\r\n" + err.stack);
-			})
-			;
-	};
-
-	if (argv.dailyReport) {
-		emailDailyReport();
-		return;
-	}	
-
 	require('./mongodb-output')(conf)
 		.then(logStoragePlugin => {
 			return startServer(conf, logStoragePlugin)
 				.then(() => {
+					var emailDailyReport = function () {
+						console.log("Generating daily logging report email...");
+
+						var dailyReport = new DailyReport(logStoragePlugin, conf);
+						dailyReport.emailDailyReport(conf.get('mail:dailyReportSpec'))
+							.then(() => {
+								console.log("...generated daily logging report email.");
+							})
+							.catch(err => {
+								console.error("Failed to generate daily report\r\n" + err.stack);
+							})
+							;
+					};
+
+					if (argv.dailyReport) {
+						emailDailyReport();
+						return;
+					}	
+
 					console.log("Starting daily report cron...");
 
 					var dailyReportSchedule = conf.get('dailyReportSchedule');
