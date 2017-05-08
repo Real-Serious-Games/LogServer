@@ -8,6 +8,9 @@ var bodyParser = require('body-parser')
 var DailyReport = require('./daily-report');
 var assert = require('chai').assert;
 var cron = require('cron');
+var path = require('path');
+var conf = require('confucious');
+var fs = require('fs');
 
 process.on('uncaughtException', function (err) {
     console.error('Uncaught Exception: ' + err.message + '\r\n' + err.stack);
@@ -99,15 +102,14 @@ if (require.main === module) {
     //
     // Run from command line.
     //
-    var conf = require('confucious');
-    var fs = require('fs');
-    if (fs.existsSync('config.json')) {
-        conf.pushJsonFile('config.json');       
+	var configFilePath = path.join(__dirname, 'config.json');	
+    if (fs.existsSync(configFilePath)) {
+        conf.pushJsonFile(configFilePath);       
     }
 	else {
 		console.log("!! config.json not found.");
 	}
-	
+
     conf.pushArgv();
     if (!conf.get('db')) {
         throw new Error("'db' not specified in config.json or as command line option.");
