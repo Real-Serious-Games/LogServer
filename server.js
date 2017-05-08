@@ -147,6 +147,8 @@ if (require.main === module) {
 					console.log("Starting daily report cron...");
 
 					var dailyReportSchedule = conf.get('dailyReportSchedule');
+					assert.isString(dailyReportSchedule);
+					
 					var CronJob = cron.CronJob;
 					var cronJob = new CronJob({
 						cronTime: dailyReportSchedule,
