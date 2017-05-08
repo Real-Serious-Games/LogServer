@@ -107,7 +107,7 @@ if (require.main === module) {
         conf.pushJsonFile(configFilePath);       
     }
 	else {
-		console.log("!! config.json not found.");
+		console.log("!! " + configFilePath + " not found.");
 	}
 
     conf.pushArgv();
