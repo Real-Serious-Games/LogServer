@@ -104,6 +104,10 @@ if (require.main === module) {
     if (fs.existsSync('config.json')) {
         conf.pushJsonFile('config.json');       
     }
+	else {
+		console.log("!! config.json not found.");
+	}
+	
     conf.pushArgv();
     if (!conf.get('db')) {
         throw new Error("'db' not specified in config.json or as command line option.");
