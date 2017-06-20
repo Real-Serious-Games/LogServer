@@ -1,4 +1,5 @@
 {
+    "source": "my-logger",
     "db": "mongodb://localhost/logs",
     "logsCollection": "logs",
     "errorsCollection": "errors",

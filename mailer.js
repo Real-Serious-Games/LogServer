@@ -29,7 +29,7 @@ if (enableMailer) {
 						to: config.get('mail:to'),
 						from: config.get('mail:from'),
 						replyTo: config.get('mail:replyTo'),
-						subject: config.get('mail:subject'),
+						subject: config.get('mail:subject') + ' [' + config.get('source') + ']',
 						text: msg.text,
 						attachments: msg.attachments || [],
 					}, 
