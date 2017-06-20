@@ -52,26 +52,33 @@ var DailyReport = function (logStoragePlugin, config) {
 
         return self.findLogs(startTime, endTime, spec)
             .then(logs => {
-                return mailer.send({
-                    text: "Logs ahoy!",
-                    attachments: [
-                        {
-                            filename: 'Logs.csv',
-                            content: new dataForge.DataFrame({ values: logs })
-                                .generateSeries({
-                                    Date: row => moment(row.Timestamp).format('DD-MM-YYYY'),
-                                    Time: row => moment(row.Timestamp).format('HH:mm:ss'), 
-                                })
-                                .dropSeries([
-                                    "Timestamp",
-                                    "_id",
-                                    "MessageTemplate",
-                                    "Properties",
-                                ])
-                                .toCSV(),
-                        },
-                    ],
-                });
+                if (logs.length > 0) {
+                    return mailer.send({
+                        text: "Logs ahoy!",
+                        attachments: [
+                            {
+                                filename: 'Logs.csv',
+                                content: new dataForge.DataFrame({ values: logs })
+                                    .generateSeries({
+                                        Date: row => moment(row.Timestamp).format('DD-MM-YYYY'),
+                                        Time: row => moment(row.Timestamp).format('HH:mm:ss'), 
+                                    })
+                                    .dropSeries([
+                                        "Timestamp",
+                                        "_id",
+                                        "MessageTemplate",
+                                        "Properties",
+                                    ])
+                                    .toCSV(),
+                            },
+                        ],
+                    });
+                }
+                else {
+                    return mailer.send({
+                        text: "No errors or warnings worth mentioning.",
+                    });
+                }
             })
             ;
         
