@@ -14,7 +14,9 @@ module.exports = function (conf) {
     console.log('Errors to: ' + conf.get('errorsCollection'));
 
     return MongoClient.connect(conf.get('db'))
-        .then(db => {
+        .then(client => {
+	    var db = client.db('logs');
+
             var logsCollection = db.collection(conf.get('logsCollection'));
             var errorsCollection = db.collection(conf.get('errorsCollection'));
             
@@ -24,13 +26,17 @@ module.exports = function (conf) {
                 // Emit an array of logs to the database.
                 //
                 emit: function (logs) {
-                    logsCollection.insertMany(logs)
-                        .then(function () {
-                            //console.log("Added logs to database.");
-                        })
-                        .catch(function (err) {
-                            console.error("!! " + (err && error.stack || err));
-                        });
+
+		    if (logs && logs.length > 0) {
+                    	logsCollection
+				.insertMany(logs)
+                        	.then(function () {
+                            		//console.log("Added logs to database.");
+                        	})
+                        	.catch(function (err) {
+                            		console.error("!! " + (err && err.stack || err));
+                        	});
+		    }
 
                     var errorLogs = logs.filter(function (log) {
                             return log.Level === 'Fatal' || log.Level === 'Error';
